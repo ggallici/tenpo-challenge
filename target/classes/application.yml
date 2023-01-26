@@ -1,0 +1,14 @@
+#spring:
+#    jackson:
+#        property-naming-strategy: SNAKE_CASE
+
+custom:
+    rest-service:
+        services:
+            default:
+                ttl: 0
+                retries: 0
+            percentage:
+                ttl: 30
+                retries: 3
+
