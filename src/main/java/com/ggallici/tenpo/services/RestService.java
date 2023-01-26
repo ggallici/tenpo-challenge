@@ -1,10 +1,9 @@
 package com.ggallici.tenpo.services;
 
-import com.ggallici.tenpo.configs.RestProperties;
+import com.ggallici.tenpo.properties.RestProperties;
 import com.ggallici.tenpo.exceptions.RestServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;

@@ -1,4 +1,4 @@
-package com.ggallici.tenpo.configs;
+package com.ggallici.tenpo.properties;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,16 +13,16 @@ public class RestProperties {
 
     private final Map<String, Service> services;
 
-    public long getTtl(String serviceKey) {
-        return getServiceOrDefault(serviceKey).ttl();
+    public long getTtl(String key) {
+        return getOrDefault(key).ttl();
     }
 
-    public long getRetries(String serviceKey) {
-        return getServiceOrDefault(serviceKey).retries();
+    public long getRetries(String key) {
+        return getOrDefault(key).retries();
     }
 
-    private Service getServiceOrDefault(String serviceKey) {
-        return Optional.ofNullable(services.get(serviceKey))
+    private Service getOrDefault(String key) {
+        return Optional.ofNullable(services.get(key))
                 .orElseGet(() -> services.get(DEFAULT_SERVICE_KEY));
     }
 

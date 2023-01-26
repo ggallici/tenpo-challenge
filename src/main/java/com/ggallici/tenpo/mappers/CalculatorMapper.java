@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Service
 public class CalculatorMapper {
-    public AddResponseDto toAddResponseDto(BigDecimal result) {
-        return new AddResponseDto(result);
+    public AddResponseDto toAddResponseDto(BigDecimal value) {
+        return new AddResponseDto(value);
     }
 }
