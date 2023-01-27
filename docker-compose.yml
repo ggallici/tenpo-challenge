@@ -2,7 +2,26 @@ version: '3.8'
 
 services:
   app:
+    build: .
+    environment:
+      - SERVER_PORT=${APP_PORT}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update #Revisar despues
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      - db
 
   db:
-
-volumes:
+    image: postgres:alpine
+    environment:
+      - PGPORT=${DB_PORT}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - ${DB_DATA_PATH}:/var/lib/postgresql/data
