@@ -12,8 +12,8 @@ COPY src ./src
 # setup environment
 ENV SPRING_PROFILES_ACTIVE=prod
 
-# download dependencies & compile
-RUN ./mvnw clean package && cp target/*.jar app.jar
+# download dependencies
+RUN ./mvnw dependency:resolve
 
 # run app
-ENTRYPOINT java -jar app.jar
+ENTRYPOINT ./mvnw spring-boot:run
