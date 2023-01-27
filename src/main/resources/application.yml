@@ -1,17 +1,5 @@
 spring:
+    profiles:
+        active: ${SPRING_PROFILES_ACTIVE:dev}
     jackson:
         property-naming-strategy: SNAKE_CASE
-    datasource:
-        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/test}
-        username: ${SPRING_DATASOURCE_USERNAME:test}
-        password: ${SPRING_DATASOURCE_PASSWORD:test}
-
-custom:
-    rest-service:
-        services:
-            default:
-                ttl: 0
-                retries: 0
-            percentage:
-                ttl: 30
-                retries: 3

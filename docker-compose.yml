@@ -4,6 +4,7 @@ services:
   app:
     build: .
     environment:
+      - SPRING_PROFILES_ACTIVE=${ENVIRONMENT}
       - SERVER_PORT=${APP_PORT}
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
       - SPRING_DATASOURCE_USERNAME=${DB_USER}
