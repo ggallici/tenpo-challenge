@@ -9,6 +9,9 @@ COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 COPY src ./src
 
+# setup environment
+ENV SPRING_PROFILES_ACTIVE=prod
+
 # download dependencies & compile
 RUN ./mvnw clean package && cp target/*.jar app.jar
 
