@@ -17,3 +17,6 @@
 # Maven
 log/
 target/
+
+# Local configuration file
+application-local.yml

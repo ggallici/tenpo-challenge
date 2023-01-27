@@ -1,0 +1,15 @@
+spring:
+    datasource:
+        url: #example: jdbc:postgresql://localhost:5432/test
+        username: #user
+        password: #pass
+    jpa:
+        hibernate:
+            ddl-auto: #update
+
+custom:
+    rest-service:
+        services:
+            percentage:
+                ttl: #0
+                retries: #0
