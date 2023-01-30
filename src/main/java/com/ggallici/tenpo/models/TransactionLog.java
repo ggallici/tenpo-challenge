@@ -1,10 +1,10 @@
 package com.ggallici.tenpo.models;
 
-import com.ggallici.tenpo.models.converters.TransactionResultConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -15,15 +15,15 @@ public class TransactionLog {
     @GeneratedValue
     private Long id;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = STRING)
     private TransactionStatus status;
 
     private String uri;
 
-    @Convert(converter = TransactionResultConverter.class)
-    private Object result;
+    @Embedded
+    private Add result;
 
-    public TransactionLog(TransactionStatus status, String uri, Object result) {
+    public TransactionLog(TransactionStatus status, String uri, Add result) {
         this.status = status;
         this.uri = uri;
         this.result = result;

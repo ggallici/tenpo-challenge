@@ -1,10 +1,15 @@
 package com.ggallici.tenpo.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ggallici.tenpo.dtos.add.AddResponseDto;
+import com.ggallici.tenpo.dtos.transactionLog.TransactionLogResponseDto;
+import com.ggallici.tenpo.mappers.CalculatorMapper;
+import com.ggallici.tenpo.models.Add;
 import com.ggallici.tenpo.models.TransactionLog;
 import com.ggallici.tenpo.models.TransactionStatus;
 import com.ggallici.tenpo.services.TransactionLogService;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +21,11 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
 
-@Component
+@WebFilter(urlPatterns = "/calculator/adder")
 @RequiredArgsConstructor
 public class TransactionLogFilter extends OncePerRequestFilter {
     private final TransactionLogService transactionLogService;
+    private final CalculatorMapper calculatorMapper;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -48,10 +54,11 @@ public class TransactionLogFilter extends OncePerRequestFilter {
         return request.getRequestURI();
     }
 
-    private Object getBody(ContentCachingResponseWrapper response) throws IOException {
+    private Add getBody(ContentCachingResponseWrapper response) throws IOException {
         try {
             var jsonBody = new String(response.getContentAsByteArray(), 0, response.getContentSize(), response.getCharacterEncoding());
-            return objectMapper.readValue(jsonBody, Object.class);
+            var addResponseDto = objectMapper.readValue(jsonBody, AddResponseDto.class);
+            return calculatorMapper.toModel(addResponseDto);
         } finally {
             response.copyBodyToResponse();
         }

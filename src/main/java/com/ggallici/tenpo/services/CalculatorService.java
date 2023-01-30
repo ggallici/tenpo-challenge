@@ -17,8 +17,8 @@ public class CalculatorService {
         return applySurcharge(first.add(second), percentageRestService.getPercentage().value());
     }
 
-    private BigDecimal applySurcharge(BigDecimal result, BigDecimal percentage) {
-        var surcharge = percentage.divide(ONE_HUNDRED).multiply(result);
-        return result.add(surcharge);
+    private BigDecimal applySurcharge(BigDecimal amount, BigDecimal percentage) {
+        var surcharge = percentage.divide(ONE_HUNDRED).multiply(amount);
+        return amount.add(surcharge);
     }
 }

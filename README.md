@@ -6,6 +6,8 @@ Desiciones de diseño:
 - No usar cache distribuida porque es un overkill, en vez de eso usar cache del webClient en memoria
 - Tambien se puede hablar de que, si la api externa devolviera la cookie "Cache-Control" con un "max-age=0" adecuando, se podria implementar
 - una cache que no sobreescriba eso
+- Hablar de AOP AspectJ, WebInterceptor y Servlet Filters
+- Hablar de que iba a usar el filter para todos los urls, pero iba a usar un converter convirtiendolo a string y me pasaba de 255 muy rapido
 
 - PENDIENTES:
   - Usar una api de random que no sea estatica (pagar https://mocki.io/docs)

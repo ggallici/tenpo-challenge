@@ -3,6 +3,7 @@ package com.ggallici.tenpo.services;
 import com.ggallici.tenpo.models.TransactionLog;
 import com.ggallici.tenpo.repositories.TransactionLogRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,8 @@ public class TransactionLogService {
         transactionLogRepository.save(transactionLog);
     }
 
-    public List<TransactionLog> findAll() {
-        return transactionLogRepository.findAll();
+    public List<TransactionLog> findAll(int page, int size) {
+        var pageRequest = PageRequest.of(page, size);
+        return transactionLogRepository.findAll(pageRequest).getContent();
     }
 }
