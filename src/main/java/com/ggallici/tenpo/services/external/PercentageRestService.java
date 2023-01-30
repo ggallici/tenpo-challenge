@@ -1,9 +1,7 @@
-package com.ggallici.tenpo.services.percentage;
+package com.ggallici.tenpo.services.external;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.ggallici.tenpo.dtos.percentage.PercentageResponseDto;
-import com.ggallici.tenpo.services.RestService;
+import com.ggallici.tenpo.services.wrappers.RestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

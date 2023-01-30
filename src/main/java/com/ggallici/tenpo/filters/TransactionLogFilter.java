@@ -2,7 +2,6 @@ package com.ggallici.tenpo.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ggallici.tenpo.dtos.add.AddResponseDto;
-import com.ggallici.tenpo.dtos.transactionLog.TransactionLogResponseDto;
 import com.ggallici.tenpo.mappers.CalculatorMapper;
 import com.ggallici.tenpo.models.Add;
 import com.ggallici.tenpo.models.TransactionLog;
@@ -13,14 +12,15 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
 
+@Order(2)
 @WebFilter(urlPatterns = "/calculator/adder")
 @RequiredArgsConstructor
 public class TransactionLogFilter extends OncePerRequestFilter {

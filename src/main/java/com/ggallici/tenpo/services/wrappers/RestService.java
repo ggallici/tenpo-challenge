@@ -1,4 +1,4 @@
-package com.ggallici.tenpo.services;
+package com.ggallici.tenpo.services.wrappers;
 
 import com.ggallici.tenpo.properties.RestProperties;
 import com.ggallici.tenpo.exceptions.RestServiceException;

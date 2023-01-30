@@ -1,6 +1,6 @@
 package com.ggallici.tenpo.services;
 
-import com.ggallici.tenpo.services.percentage.PercentageRestService;
+import com.ggallici.tenpo.services.external.PercentageRestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -13,3 +13,5 @@ custom:
             percentage:
                 ttl: 30
                 retries: 3
+    rate-limit-service:
+        max-rpm: 3

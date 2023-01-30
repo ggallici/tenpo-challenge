@@ -1,5 +1,6 @@
 package com.ggallici.tenpo.services.percentage;
 
+import com.ggallici.tenpo.services.external.PercentageRestService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
