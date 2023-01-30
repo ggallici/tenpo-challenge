@@ -1,3 +1,5 @@
 package com.ggallici.tenpo.dtos.transactionLog;
 
-public record TransactionLogResponseDto() { }
+import java.util.List;
+
+public record TransactionLogResponseDto(List<TransactionLogDto> transactions) { }
