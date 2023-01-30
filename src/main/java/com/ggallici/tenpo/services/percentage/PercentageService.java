@@ -1,13 +1,7 @@
 package com.ggallici.tenpo.services.percentage;
 
-import com.ggallici.tenpo.exceptions.NoPercentageException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
