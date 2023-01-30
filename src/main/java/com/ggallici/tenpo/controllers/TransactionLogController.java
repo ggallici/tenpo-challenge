@@ -1,13 +1,11 @@
 package com.ggallici.tenpo.controllers;
 
-import com.ggallici.tenpo.dtos.transactionLog.TransactionLogResponseDto;
+import com.ggallici.tenpo.dtos.transactionLog.TransactionLogsResponseDto;
 import com.ggallici.tenpo.mappers.TransactionLogMapper;
-import com.ggallici.tenpo.models.TransactionLog;
 import com.ggallici.tenpo.services.TransactionLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,8 +14,9 @@ public class TransactionLogController {
     private final TransactionLogMapper transactionLogMapper;
 
     @GetMapping("/transactions")
-    public TransactionLogResponseDto findById() {
+    public ResponseEntity<TransactionLogsResponseDto> findById() {
         var result = transactionLogService.findAll();
-        return transactionLogMapper.toTransactionLogResponseDto(result);
+        var transactionLogResponseDto = transactionLogMapper.toTransactionLogsResponseDto(result);
+        return ResponseEntity.ok(transactionLogResponseDto);
     }
 }

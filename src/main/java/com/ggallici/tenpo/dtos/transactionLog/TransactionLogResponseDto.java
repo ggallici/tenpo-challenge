@@ -1,5 +1,3 @@
 package com.ggallici.tenpo.dtos.transactionLog;
 
-import java.util.List;
-
-public record TransactionLogResponseDto(List<TransactionLogDto> transactions) { }
+public record TransactionLogResponseDto(String status, String uri, Object result) { }

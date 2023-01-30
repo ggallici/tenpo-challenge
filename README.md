@@ -19,3 +19,6 @@ Desiciones de diseño:
   - Terminar de codear
   - Pasar la cache a caffeine o a guava
   - Collecction de postman
+  - El async no se como anda
+  - Resolver el paginado
+  - Resolver el rate limiter
