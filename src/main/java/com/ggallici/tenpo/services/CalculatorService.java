@@ -1,6 +1,6 @@
 package com.ggallici.tenpo.services;
 
-import com.ggallici.tenpo.services.external.PercentageRestService;
+import com.ggallici.tenpo.services.externals.PercentageRestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,8 @@ public class CalculatorService {
 
     private final PercentageRestService percentageRestService;
 
-    public BigDecimal add(BigDecimal first, BigDecimal second) {
-        return applySurcharge(first.add(second), percentageRestService.getPercentage().value());
+    public BigDecimal add(BigDecimal first, BigDecimal second, boolean error) {
+        return applySurcharge(first.add(second), percentageRestService.getPercentage(error).value());
     }
 
     private BigDecimal applySurcharge(BigDecimal amount, BigDecimal percentage) {

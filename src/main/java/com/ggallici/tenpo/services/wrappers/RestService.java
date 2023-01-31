@@ -1,17 +1,13 @@
 package com.ggallici.tenpo.services.wrappers;
 
-import com.ggallici.tenpo.properties.RestProperties;
 import com.ggallici.tenpo.exceptions.RestServiceException;
+import com.ggallici.tenpo.properties.RestProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
+import reactor.util.retry.Retry.RetrySignal;
 import reactor.util.retry.RetrySpec;
-
-import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -23,24 +19,25 @@ public class RestService {
         return restClient.get()
                 .uri(uri)
                 .retrieve()
-                .onStatus(HttpStatusCode::isError, this::parseError)
                 .bodyToMono(clazz)
 
-                .cache(getTtl(service))
-                .retryWhen(getRetries(service))
+                //.cache(getTtl(service))
+                .retryWhen(getRetries(service)
+                        .onRetryExhaustedThrow(this::wrapException))
 
                 .block();
-        //TODO: no está en la caché y realizó 3 intentos consecutivos ?
     }
 
-    private Mono<RestServiceException> parseError(ClientResponse error) {
-        return error.createException()
-                .map(ex -> new RestServiceException("External service error", ex));
+    private RestServiceException wrapException(RetrySpec spec, RetrySignal signal) {
+        return new RestServiceException(
+                "External service error - Retries exhausted after %d attempts".formatted(signal.totalRetries() + 1),
+                signal.failure()
+        );
     }
 
-    private Duration getTtl(String service) {
-        return Duration.ofMinutes(restProperties.getTtl(service));
-    }
+//    private Duration getTtl(String service) {
+//        return Duration.ofMinutes(restProperties.getTtl(service));
+//    }
 
     private RetrySpec getRetries(String service) {
         return Retry.maxInARow(restProperties.getRetries(service));

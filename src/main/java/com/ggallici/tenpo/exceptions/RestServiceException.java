@@ -1,9 +1,7 @@
 package com.ggallici.tenpo.exceptions;
 
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-
 public class RestServiceException extends RuntimeException {
-    public RestServiceException(String message, WebClientResponseException cause) {
+    public RestServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 }
