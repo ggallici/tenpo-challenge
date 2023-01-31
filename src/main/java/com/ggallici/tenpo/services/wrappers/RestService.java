@@ -2,7 +2,6 @@ package com.ggallici.tenpo.services.wrappers;
 
 import com.ggallici.tenpo.exceptions.RestServiceException;
 import com.ggallici.tenpo.properties.RestProperties;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.util.retry.Retry;
@@ -10,10 +9,14 @@ import reactor.util.retry.Retry.RetrySignal;
 import reactor.util.retry.RetrySpec;
 
 @Service
-@RequiredArgsConstructor
 public class RestService {
     private final WebClient restClient;
     private final RestProperties restProperties;
+
+    public RestService(RestProperties restProperties) {
+        this.restProperties = restProperties;
+        this.restClient = WebClient.create();
+    }
 
     public <T> T getObject(String service, String uri, Class<T> clazz) {
         return restClient.get()

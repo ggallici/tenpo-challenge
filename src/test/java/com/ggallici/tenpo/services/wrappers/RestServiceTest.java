@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
@@ -22,10 +21,13 @@ public class RestServiceTest {
     private final WireMockServer wireMockServer = new WireMockServer();
 
     @Mock
-    private RestProperties restProperties;
+    private RestProperties restPropertiesMock;
+
+    private RestService restService;
 
     @Before
     public void setUp() {
+        this.restService = new RestService(restPropertiesMock);
         wireMockServer.start();
     }
 
@@ -82,7 +84,7 @@ public class RestServiceTest {
                 .whenScenarioStateIs(thirdRequest)
                 .willReturn(responses[2]));
 
-        doReturn(maxRetries).when(restProperties).getRetries(service);
+        doReturn(maxRetries).when(restPropertiesMock).getRetries(service);
 
         if (exceptionExpected) {
             assertThatThrownBy(() -> doGet(service, host, resource))
@@ -95,12 +97,11 @@ public class RestServiceTest {
         }
 
         wireMockServer.verify(expectedAttempts, getRequestedFor(urlEqualTo(resource)));
-        verify(restProperties, atLeastOnce()).getRetries(service);
+        verify(restPropertiesMock, atLeastOnce()).getRetries(service);
     }
 
     private TestDto doGet(String service, String host, String resource) {
-        return new RestService(WebClient.create(), restProperties)
-                .getObject(service, host + resource, TestDto.class);
+        return restService.getObject(service, host + resource, TestDto.class);
     }
 
     private ResponseDefinitionBuilder okResponse() {
