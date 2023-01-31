@@ -11,8 +11,12 @@ public class RateLimitService {
     private final Bucket bucket;
 
     public void consume() {
-        if (!bucket.tryConsume(1)) {
+        if (requestQuotaExceeded()) {
             throw new RequestQuotaExceededException();
         }
+    }
+
+    private boolean requestQuotaExceeded() {
+        return !bucket.tryConsume(1);
     }
 }

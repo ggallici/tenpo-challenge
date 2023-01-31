@@ -22,3 +22,4 @@ Desiciones de diseño:
   - Hacer andar el volumen de docker
   - Hacer todos los tests
   - Ver que se aplique la transaccion en la BD @Transactional
+  - Queda testear beans, controllers, filters y application
