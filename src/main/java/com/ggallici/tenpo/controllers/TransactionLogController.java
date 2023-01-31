@@ -16,7 +16,7 @@ public class TransactionLogController {
     @GetMapping("/transactions")
     public ResponseEntity<TransactionLogsResponseDto> findById(@RequestParam int page, @RequestParam int size) {
         var result = transactionLogService.findAll(page, size);
-        var transactionLogResponseDto = transactionLogMapper.toTransactionLogsResponseDto(result);
-        return ResponseEntity.ok(transactionLogResponseDto);
+        var transactionLogsResponseDto = transactionLogMapper.toResponseDto(result);
+        return ResponseEntity.ok(transactionLogsResponseDto);
     }
 }

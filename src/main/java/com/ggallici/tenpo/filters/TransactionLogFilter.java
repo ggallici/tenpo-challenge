@@ -20,6 +20,9 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
 
+import static com.ggallici.tenpo.models.TransactionStatus.ERROR;
+import static com.ggallici.tenpo.models.TransactionStatus.OK;
+
 @Order(2)
 @WebFilter(urlPatterns = "/calculator/adder")
 @RequiredArgsConstructor
@@ -35,9 +38,9 @@ public class TransactionLogFilter extends OncePerRequestFilter {
 
         try {
             chain.doFilter(wrappedRequest, wrappedResponse);
-            logTransaction(TransactionStatus.OK, wrappedRequest, wrappedResponse);
+            logTransaction(OK, wrappedRequest, wrappedResponse);
         } catch (Exception e) {
-            logTransaction(TransactionStatus.ERROR, wrappedRequest, wrappedResponse);
+            logTransaction(ERROR, wrappedRequest, wrappedResponse);
         }
     }
 

@@ -1,3 +1,5 @@
 package com.ggallici.tenpo.dtos.transactionLog;
 
-public record TransactionLogResponseDto(String status, String uri, Object result) { }
+import com.ggallici.tenpo.dtos.add.AddResponseDto;
+
+public record TransactionLogResponseDto(String status, String uri, AddResponseDto result) { }

@@ -15,7 +15,7 @@ public class TransactionLog {
     @GeneratedValue
     private Long id;
 
-    @Enumerated(value = STRING)
+    @Enumerated(STRING)
     private TransactionStatus status;
 
     private String uri;

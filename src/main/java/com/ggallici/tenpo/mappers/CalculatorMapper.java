@@ -8,8 +8,12 @@ import java.math.BigDecimal;
 
 @Service
 public class CalculatorMapper {
-    public AddResponseDto toAddResponseDto(BigDecimal value) {
+    public AddResponseDto toResponseDto(BigDecimal value) {
         return new AddResponseDto(value);
+    }
+
+    public AddResponseDto toResponseDto(Add result) {
+        return new AddResponseDto(result.getValue());
     }
 
     public Add toModel(AddResponseDto result) {
