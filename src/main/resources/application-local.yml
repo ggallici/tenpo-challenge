@@ -11,7 +11,10 @@ custom:
     rest-service:
         services:
             percentage:
-                ttl: 30
                 retries: 3
+    cache-service:
+        services:
+            percentage:
+                ttl: 30
     rate-limit-service:
         max-rpm: 3

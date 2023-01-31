@@ -13,10 +13,6 @@ public class RestProperties {
 
     private final Map<String, Service> services;
 
-    public long getTtl(String key) {
-        return getOrDefault(key).ttl();
-    }
-
     public long getRetries(String key) {
         return getOrDefault(key).retries();
     }
@@ -26,5 +22,5 @@ public class RestProperties {
                 .orElseGet(() -> services.get(DEFAULT_SERVICE_KEY));
     }
 
-    record Service(long ttl, long retries) { }
+    record Service(long retries) { }
 }

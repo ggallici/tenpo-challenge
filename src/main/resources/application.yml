@@ -8,5 +8,8 @@ custom:
     rest-service:
         services:
             default:
-                ttl: 0
                 retries: 0
+    cache-service:
+        services:
+            default:
+                ttl: 0
