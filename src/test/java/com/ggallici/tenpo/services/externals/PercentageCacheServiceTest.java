@@ -38,9 +38,9 @@ public class PercentageCacheServiceTest {
 
         doReturn(value).when(cacheMock).getIfPresent(key);
 
-        assertThat(percentageCacheService.get(key))
-                .isEqualTo(Optional.of(value));
+        var retrieved = percentageCacheService.get(key);
 
+        assertThat(retrieved).isEqualTo(Optional.of(value));
         verify(cacheMock).getIfPresent(key);
     }
 
@@ -48,9 +48,9 @@ public class PercentageCacheServiceTest {
     public void testGet_empty() {
         var key = "1";
 
-        assertThat(percentageCacheService.get(key))
-                .isEqualTo(Optional.empty());
+        var retrieved = percentageCacheService.get(key);
 
+        assertThat(retrieved).isEqualTo(Optional.empty());
         verify(cacheMock).getIfPresent(key);
     }
 

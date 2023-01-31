@@ -11,7 +11,6 @@ Desiciones de diseño:
 - Hablar de que usé el rate limiter ese porque podria extenderse a un rate limiter distribuido
 
 - PENDIENTES:
-  - Usar una api de random que no sea estatica (pagar https://mocki.io/docs)
   - Separar dockerfile + .env a carpeta separada
   - Dejar de builder la imagen en el dockerfile y pasarlo a una imagen en alguna registry
   - Documentar bien las configuraciones:
@@ -21,5 +20,4 @@ Desiciones de diseño:
   - Borrar los templates y documentar como crear el .env y el application-local.yml
   - El async no se como anda
   - Hacer andar el volumen de docker
-  - Revisar la division del bigDecimal
   - Hacer todos los tests
