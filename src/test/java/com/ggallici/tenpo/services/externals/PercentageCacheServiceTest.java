@@ -33,7 +33,7 @@ public class PercentageCacheServiceTest {
     }
 
     @Test
-    public void testGet() {
+    public void testGet_present() {
         var key = "1"; var value = new PercentageResponseDto(BigDecimal.TEN);
 
         doReturn(value).when(cacheMock).getIfPresent(key);
