@@ -21,7 +21,6 @@ public class RestService {
                 .retrieve()
                 .bodyToMono(clazz)
 
-                //.cache(getTtl(service))
                 .retryWhen(getRetries(service)
                         .onRetryExhaustedThrow(this::wrapException))
 
@@ -34,10 +33,6 @@ public class RestService {
                 signal.failure()
         );
     }
-
-//    private Duration getTtl(String service) {
-//        return Duration.ofMinutes(restProperties.getTtl(service));
-//    }
 
     private RetrySpec getRetries(String service) {
         return Retry.maxInARow(restProperties.getRetries(service));
