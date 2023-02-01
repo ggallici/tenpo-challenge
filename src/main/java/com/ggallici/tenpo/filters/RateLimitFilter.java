@@ -25,7 +25,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
             rateLimitService.consume();
             chain.doFilter(request, response);
         } catch (RequestQuotaExceededException e) {
-            response.sendError(e.getStatusCode(), e.getMessage());
+            response.sendError(e.getHttpStatusCode(), e.getMessage());
         }
     }
 }

@@ -55,7 +55,7 @@ public class CalculatorControllerTest {
     public void testAdd_error() {
         var error = true; var requestDto = new AddRequestDto(BigDecimal.ONE, BigDecimal.ZERO);
 
-        var expected = new RestServiceException("test", null);
+        var expected = new RestServiceException("test", HttpStatus.SERVICE_UNAVAILABLE, null);
 
         doThrow(expected).when(calculatorServiceMock).add(requestDto.first(), requestDto.second(), error);
 

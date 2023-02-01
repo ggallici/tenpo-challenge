@@ -3,6 +3,7 @@ package com.ggallici.tenpo.filters;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ggallici.tenpo.dtos.add.AddResponseDto;
+import com.ggallici.tenpo.exceptions.RestServiceException;
 import com.ggallici.tenpo.mappers.CalculatorMapper;
 import com.ggallici.tenpo.models.Add;
 import com.ggallici.tenpo.models.TransactionLog;
@@ -26,6 +27,7 @@ import java.util.Optional;
 
 import static com.ggallici.tenpo.models.TransactionStatus.ERROR;
 import static com.ggallici.tenpo.models.TransactionStatus.OK;
+import static jakarta.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 @Order(2)
 @WebFilter(urlPatterns = "/calculator/adder")
@@ -45,7 +47,8 @@ public class TransactionLogFilter extends OncePerRequestFilter {
             logTransaction(OK, wrappedRequest, wrappedResponse);
         } catch (Exception e) {
             logTransaction(ERROR, wrappedRequest, null);
-            throw e;
+            var cause = (RestServiceException) e.getCause();
+            response.sendError(cause.getHttpStatusCode(), cause.getMessage());
         }
     }
 

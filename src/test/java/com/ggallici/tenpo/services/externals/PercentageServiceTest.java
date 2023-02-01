@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public class PercentageServiceTest {
 
     @Test
     public void testGetPercentage_notPresent() {
-        var expected = new RestServiceException("test", null);
+        var expected = new RestServiceException("test", HttpStatus.SERVICE_UNAVAILABLE, null);
 
         doReturn(Optional.empty()).when(percentageCacheServiceMock).get(CACHE_KEY);
         doThrow(expected).when(percentageRestServiceMock).get(true);

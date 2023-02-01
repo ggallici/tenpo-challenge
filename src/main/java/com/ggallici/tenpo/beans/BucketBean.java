@@ -16,13 +16,8 @@ public class BucketBean {
 
     @Bean
     public Bucket bucket() {
-
-        /*
-            var refill = Refill.greedy(1, Duration.ofSeconds(20));
-            var other = Bandwidth.classic(maxRPM, refill);
-        **/
-
-        var limit = Bandwidth.simple(maxRPM, Duration.ofMinutes(1));
+        var refill = Refill.intervally(maxRPM, Duration.ofMinutes(1));
+        var limit = Bandwidth.classic(maxRPM, refill);
         return Bucket.builder()
                 .addLimit(limit)
                 .build();

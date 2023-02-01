@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 
@@ -64,7 +65,7 @@ public class CalculatorServiceTest {
 
     @Test
     public void testAdd_error() {
-        var expected = new RestServiceException("test", null);
+        var expected = new RestServiceException("test", HttpStatus.SERVICE_UNAVAILABLE, null);
 
         doThrow(expected).when(percentageServiceMock).getPercentage(true);
 

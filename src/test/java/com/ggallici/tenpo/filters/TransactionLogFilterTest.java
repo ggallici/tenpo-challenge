@@ -2,6 +2,7 @@ package com.ggallici.tenpo.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ggallici.tenpo.dtos.add.AddResponseDto;
+import com.ggallici.tenpo.exceptions.RestServiceException;
 import com.ggallici.tenpo.mappers.CalculatorMapper;
 import com.ggallici.tenpo.models.Add;
 import com.ggallici.tenpo.models.TransactionLog;
@@ -13,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -70,13 +72,16 @@ public class TransactionLogFilterTest {
         var request = new MockHttpServletRequest(POST.name(), uri);
         var response = new MockHttpServletResponse();
 
-        var expected = new RuntimeException("test message");
+        var expectedMessage = "nested test message";
+        var expectedStatus = HttpStatus.SERVICE_UNAVAILABLE;
 
-        doThrow(expected).when(chainMock).doFilter(any(), any());
+        doThrow(new RuntimeException("test message", new RestServiceException(expectedMessage, expectedStatus, null)))
+                .when(chainMock).doFilter(any(), any());
 
-        var retrieved = catchException(() -> transactionLogFilter.doFilterInternal(request, response, chainMock));
+        transactionLogFilter.doFilterInternal(request, response, chainMock);
 
-        assertThat(retrieved).isEqualTo(expected);
+        assertThat(response.getStatus()).isEqualTo(expectedStatus.value());
+        assertThat(response.getErrorMessage()).isEqualTo(expectedMessage);
         verify(transactionLogServiceMock).save(refEq(new TransactionLog(ERROR, uri, null)));
     }
 }
