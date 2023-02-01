@@ -18,5 +18,4 @@ Desiciones de diseño:
     - El archivo application-local.yml => Tiene la config solo de local y no debería ser commiteado
     - El archivo .env del docker-compose => Tiene la config solo de prod y no debería ser commiteado
   - Borrar los templates y documentar como crear el .env y el application-local.yml
-  - El async no se como anda
   - Hacer andar el volumen de docker

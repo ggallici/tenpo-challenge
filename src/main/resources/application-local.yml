@@ -8,13 +8,13 @@ spring:
             ddl-auto: create
 
 custom:
-    rest-service:
+    rest.service:
         services:
             percentage:
                 retries: 3
-    cache-service:
+    cache.service:
         services:
             percentage:
                 ttl: 30
-    rate-limit-service:
+    rate.limit.service:
         max-rpm: 3

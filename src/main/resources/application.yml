@@ -9,11 +9,11 @@ spring:
         property-naming-strategy: SNAKE_CASE
 
 custom:
-    rest-service:
+    rest.service:
         services:
             default:
                 retries: 0
-    cache-service:
+    cache.service:
         services:
             default:
                 ttl: 0

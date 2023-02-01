@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
 
-@ConfigurationProperties("custom.rest-service")
+@ConfigurationProperties("custom.rest.service")
 public class RestProperties extends Properties<RestProperties.Service> {
     public RestProperties(Map<String, Service> services) {
         super(services);

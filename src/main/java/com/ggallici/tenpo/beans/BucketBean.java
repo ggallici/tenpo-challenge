@@ -11,7 +11,7 @@ import java.time.Duration;
 
 @Configuration
 public class BucketBean {
-    @Value("${custom.rate-limit-service.max-rpm}")
+    @Value("${custom.rate.limit.service.max-rpm}")
     private int maxRPM;
 
     @Bean
