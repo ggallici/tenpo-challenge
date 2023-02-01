@@ -21,18 +21,18 @@ public class TransactionLogMapper {
     public TransactionLogsResponseDto toResponseDto(List<TransactionLog> transactions) {
         return new TransactionLogsResponseDto(
                 transactions.stream()
-                        .map(this::maptoDto)
+                        .map(this::mapToDto)
                         .collect(toList())
         );
     }
 
-    private TransactionLogResponseDto maptoDto(TransactionLog transactionLog) {
+    private TransactionLogResponseDto mapToDto(TransactionLog transactionLog) {
         return new TransactionLogResponseDto(
-                transactionLog.getStatus().name(), transactionLog.getUri(), maptoDto(transactionLog.getResult())
+                transactionLog.getStatus().name(), transactionLog.getUri(), mapToDto(transactionLog.getResult())
         );
     }
 
-    private AddResponseDto maptoDto(Add result) {
+    private AddResponseDto mapToDto(Add result) {
         return Optional.ofNullable(result)
                 .map(calculatorMapper::toResponseDto)
                 .orElse(null);
