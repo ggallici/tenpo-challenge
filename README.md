@@ -20,6 +20,3 @@ Desiciones de diseño:
   - Borrar los templates y documentar como crear el .env y el application-local.yml
   - El async no se como anda
   - Hacer andar el volumen de docker
-  - Hacer todos los tests
-  - Ver que se aplique la transaccion en la BD @Transactional
-  - Queda testear beans, controllers, filters y application
