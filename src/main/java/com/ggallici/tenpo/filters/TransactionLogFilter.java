@@ -1,5 +1,6 @@
 package com.ggallici.tenpo.filters;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ggallici.tenpo.dtos.add.AddResponseDto;
 import com.ggallici.tenpo.mappers.CalculatorMapper;
@@ -8,6 +9,7 @@ import com.ggallici.tenpo.models.TransactionLog;
 import com.ggallici.tenpo.models.TransactionStatus;
 import com.ggallici.tenpo.services.TransactionLogService;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +21,8 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 import static com.ggallici.tenpo.models.TransactionStatus.ERROR;
 import static com.ggallici.tenpo.models.TransactionStatus.OK;
@@ -32,7 +36,7 @@ public class TransactionLogFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         var wrappedRequest = new ContentCachingRequestWrapper(request);
         var wrappedResponse = new ContentCachingResponseWrapper(response);
 
@@ -40,30 +44,44 @@ public class TransactionLogFilter extends OncePerRequestFilter {
             chain.doFilter(wrappedRequest, wrappedResponse);
             logTransaction(OK, wrappedRequest, wrappedResponse);
         } catch (Exception e) {
-            logTransaction(ERROR, wrappedRequest, wrappedResponse);
+            logTransaction(ERROR, wrappedRequest, null);
+            throw e;
         }
     }
 
     @Async
     void logTransaction(TransactionStatus status, ContentCachingRequestWrapper request, ContentCachingResponseWrapper response) {
         try {
-            transactionLogService.save(new TransactionLog(status, getURI(request), getBody(response)));
+            var transactionLog = new TransactionLog(status, getUri(request), getResult(response));
+            transactionLogService.save(transactionLog);
         } catch (Exception ignored) {
 
         }
     }
 
-    private String getURI(ContentCachingRequestWrapper request) {
+    private String getUri(ContentCachingRequestWrapper request) {
         return request.getRequestURI();
     }
 
-    private Add getBody(ContentCachingResponseWrapper response) throws IOException {
+    private Add getResult(ContentCachingResponseWrapper response) {
+        return Optional.ofNullable(response)
+                .map(this::mapToEntity)
+                .orElse(null);
+    }
+
+    private Add mapToEntity(ContentCachingResponseWrapper response) {
         try {
-            var jsonBody = new String(response.getContentAsByteArray(), 0, response.getContentSize(), response.getCharacterEncoding());
-            var addResponseDto = objectMapper.readValue(jsonBody, AddResponseDto.class);
-            return calculatorMapper.toModel(addResponseDto);
+            var body = new String(response.getContentAsByteArray(), 0, response.getContentSize(), response.getCharacterEncoding());
+            var dto = objectMapper.readValue(body, AddResponseDto.class);
+            return calculatorMapper.toModel(dto);
+        } catch (JsonProcessingException | UnsupportedEncodingException e) {
+            return null;
         } finally {
-            response.copyBodyToResponse();
+            try {
+                response.copyBodyToResponse();
+            } catch (IOException ignored) {
+
+            }
         }
     }
 }
