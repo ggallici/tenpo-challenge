@@ -2,11 +2,9 @@ package com.ggallici.tenpo.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ggallici.tenpo.dtos.add.AddResponseDto;
-import com.ggallici.tenpo.exceptions.RequestQuotaExceededException;
 import com.ggallici.tenpo.mappers.CalculatorMapper;
 import com.ggallici.tenpo.models.Add;
 import com.ggallici.tenpo.models.TransactionLog;
-import com.ggallici.tenpo.models.TransactionStatus;
 import com.ggallici.tenpo.services.TransactionLogService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,7 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -57,13 +54,13 @@ public class TransactionLogFilterTest {
         var response = new MockHttpServletResponse();
 
         doReturn(expectedDto).when(objectMapperMock).readValue(anyString(), eq(AddResponseDto.class));
-        doReturn(expectedEntity).when(calculatorMapperMock).toModel(expectedDto);
+        doReturn(expectedEntity).when(calculatorMapperMock).toEntity(expectedDto);
 
         transactionLogFilter.doFilterInternal(request, response, chainMock);
 
         verify(transactionLogServiceMock).save(refEq(new TransactionLog(OK, uri, expectedEntity)));
         verify(objectMapperMock).readValue(anyString(), eq(AddResponseDto.class));
-        verify(calculatorMapperMock).toModel(expectedDto);
+        verify(calculatorMapperMock).toEntity(expectedDto);
     }
 
     @Test

@@ -39,7 +39,7 @@ public class TransactionLogServiceTest {
 
         transactionLogService.save(entity);
 
-        verify(transactionLogService).save(entity);
+        verify(transactionLogRepositoryMock).save(entity);
     }
 
     @Test

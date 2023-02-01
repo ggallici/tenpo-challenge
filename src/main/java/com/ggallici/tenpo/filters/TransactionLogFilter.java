@@ -73,7 +73,7 @@ public class TransactionLogFilter extends OncePerRequestFilter {
         try {
             var body = new String(response.getContentAsByteArray(), 0, response.getContentSize(), response.getCharacterEncoding());
             var dto = objectMapper.readValue(body, AddResponseDto.class);
-            return calculatorMapper.toModel(dto);
+            return calculatorMapper.toEntity(dto);
         } catch (JsonProcessingException | UnsupportedEncodingException e) {
             return null;
         } finally {

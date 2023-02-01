@@ -35,13 +35,13 @@ public class TransactionLogMapperTest {
     @Test
     public void testToResponseDto() {
         var uri = "/test";
-        var addModel = new Add(BigDecimal.ONE);
+        var addEntity = new Add(BigDecimal.ONE);
         var addResponseDto = new AddResponseDto(BigDecimal.ONE);
 
-        doReturn(addResponseDto).when(calculatorMapperMock).toResponseDto(addModel);
+        doReturn(addResponseDto).when(calculatorMapperMock).toResponseDto(addEntity);
 
         var transactions = List.of(
-                new TransactionLog(OK, uri, addModel),
+                new TransactionLog(OK, uri, addEntity),
                 new TransactionLog(ERROR, uri, null)
         );
 
@@ -56,6 +56,6 @@ public class TransactionLogMapperTest {
                 )
         );
 
-        verify(calculatorMapperMock).toResponseDto(addModel);
+        verify(calculatorMapperMock).toResponseDto(addEntity);
     }
 }

@@ -38,22 +38,22 @@ public class RestServiceTest {
     }
 
     @Test
-    public void testGet_1() {
+    public void testGet_resultOnFirstAttempt() {
         doTestCase(1, false, okResponse(), okResponse(), okResponse());
     }
 
     @Test
-    public void testGet_2() {
+    public void testGet_resultOnSecondAttempt() {
         doTestCase(2, false, errorResponse(), okResponse(), okResponse());
     }
 
     @Test
-    public void testGet_3() {
+    public void testGet_resultOnThirdAttempt() {
         doTestCase(3, false, errorResponse(), errorResponse(), okResponse());
     }
 
     @Test
-    public void testGet_4() {
+    public void testGet_noResult() {
         doTestCase(3, true, errorResponse(), errorResponse(), errorResponse());
     }
 

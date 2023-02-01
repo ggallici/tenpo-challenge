@@ -36,10 +36,10 @@ public class CalculatorMapperTest {
     }
 
     @Test
-    public void testToModel() {
+    public void testToEntity() {
         var value = BigDecimal.ONE;
 
-        var retrieved = calculatorMapper.toModel(new AddResponseDto(value));
+        var retrieved = calculatorMapper.toEntity(new AddResponseDto(value));
 
         assertThat(retrieved)
                 .usingRecursiveComparison()

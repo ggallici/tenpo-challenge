@@ -16,9 +16,9 @@ public class CalculatorController {
     private final CalculatorMapper calculatorMapper;
 
     @PostMapping("/calculator/adder")
-    public ResponseEntity<AddResponseDto> add(@Valid @RequestBody AddRequestDto addRequestDto, @RequestParam boolean error) {
-        var result = calculatorService.add(addRequestDto.first(), addRequestDto.second(), error);
-        var addResponseDto = calculatorMapper.toResponseDto(result);
-        return ResponseEntity.ok(addResponseDto);
+    public ResponseEntity<AddResponseDto> add(@Valid @RequestBody AddRequestDto requestDto, @RequestParam boolean error) {
+        var value = calculatorService.add(requestDto.first(), requestDto.second(), error);
+        var responseDto = calculatorMapper.toResponseDto(value);
+        return ResponseEntity.ok(responseDto);
     }
 }

@@ -16,7 +16,7 @@ public class CalculatorMapper {
         return new AddResponseDto(result.getValue());
     }
 
-    public Add toModel(AddResponseDto result) {
+    public Add toEntity(AddResponseDto result) {
         return new Add(result.value());
     }
 }

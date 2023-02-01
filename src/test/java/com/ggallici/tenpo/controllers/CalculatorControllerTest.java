@@ -1,52 +1,69 @@
 package com.ggallici.tenpo.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ggallici.tenpo.dtos.add.AddRequestDto;
-import com.ggallici.tenpo.filters.RateLimitFilter;
-import com.ggallici.tenpo.filters.TransactionLogFilter;
+import com.ggallici.tenpo.dtos.add.AddResponseDto;
+import com.ggallici.tenpo.exceptions.RestServiceException;
 import com.ggallici.tenpo.mappers.CalculatorMapper;
 import com.ggallici.tenpo.services.CalculatorService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 
-import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
+import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(controllers = CalculatorController.class)
+@RunWith(MockitoJUnitRunner.class)
 public class CalculatorControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private CalculatorMapper calculatorMapper;
-    @Autowired
-    private RateLimitFilter rateLimitFilter;
-    @Autowired
-    private TransactionLogFilter transactionLogFilter;
-
-    @MockBean
+    @Mock
     private CalculatorService calculatorServiceMock;
+    @Mock
+    private CalculatorMapper calculatorMapperMock;
+
+    private CalculatorController calculatorController;
+
+    @Before
+    public void setUp() {
+        this.calculatorController = new CalculatorController(calculatorServiceMock, calculatorMapperMock);
+    }
 
     @Test
-    public void add() throws Exception {
-        var errorParam = false; var body = new AddRequestDto(BigDecimal.ONE, BigDecimal.ZERO);
+    public void testAdd_ok() {
+        var error = false; var requestDto = new AddRequestDto(BigDecimal.ONE, BigDecimal.ZERO);
 
-        doReturn(BigDecimal.ONE).when(calculatorServiceMock).add(body.first(), body.second(), errorParam);
+        var result = BigDecimal.TEN;
+        var expected = new AddResponseDto(result);
 
-        mockMvc.perform(post("/calculator/adder")
-                .contentType("application/json")
-                .param("error", objectMapper.writeValueAsString(errorParam))
-                .content(objectMapper.writeValueAsString(body)))
-                .andExpect(status().isOk());
+        doReturn(result).when(calculatorServiceMock).add(requestDto.first(), requestDto.second(), error);
+        doReturn(expected).when(calculatorMapperMock).toResponseDto(result);
+
+        var retrieved = calculatorController.add(requestDto, error);
+
+        assertThat(retrieved.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(retrieved.getBody()).isEqualTo(expected);
+
+        verify(calculatorServiceMock).add(requestDto.first(), requestDto.second(), error);
+        verify(calculatorMapperMock).toResponseDto(result);
+    }
+
+    @Test
+    public void testAdd_error() {
+        var error = true; var requestDto = new AddRequestDto(BigDecimal.ONE, BigDecimal.ZERO);
+
+        var expected = new RestServiceException("test", null);
+
+        doThrow(expected).when(calculatorServiceMock).add(requestDto.first(), requestDto.second(), error);
+
+        var retrieved = catchException(() -> calculatorController.add(requestDto, error));
+
+        assertThat(retrieved).isEqualTo(expected);
+
+        verify(calculatorServiceMock).add(requestDto.first(), requestDto.second(), error);
+        verify(calculatorMapperMock, never()).toResponseDto(any(BigDecimal.class));
     }
 }
