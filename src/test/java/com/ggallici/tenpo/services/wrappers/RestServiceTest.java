@@ -39,12 +39,12 @@ public class RestServiceTest {
 
     @Test
     public void testGet_resultOnFirstAttempt() {
-        doTestCase(1, false, okResponse(), okResponse(), okResponse());
+        doTestCase(1, false, okResponse(), errorResponse(), errorResponse());
     }
 
     @Test
     public void testGet_resultOnSecondAttempt() {
-        doTestCase(2, false, errorResponse(), okResponse(), okResponse());
+        doTestCase(2, false, errorResponse(), okResponse(), errorResponse());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class RestServiceTest {
             assertThatThrownBy(() -> doGet(service, host, resource))
                     .isInstanceOf(RestServiceException.class)
                     .hasMessage("External service error - Retries exhausted after 3 attempts")
-                    .hasRootCauseMessage("400 Bad Request from GET http://localhost:8080/test");
+                    .hasRootCauseMessage("503 Service Unavailable from GET http://localhost:8080/test");
         } else {
             assertThat(doGet(service, host, resource))
                     .isEqualTo(new TestDto("Ok"));
@@ -117,7 +117,7 @@ public class RestServiceTest {
     }
 
     private ResponseDefinitionBuilder errorResponse() {
-        return badRequest()
+        return serviceUnavailable()
                 .withHeader("Content-Type", "application/json")
                 .withBody(
                         """

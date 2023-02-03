@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PercentageRestService {
     static final String SERVICE = "percentage";
-    static final String OK_URI = "https://api.mocki.io/v2/7c49428e/percentage-ok";
-    static final String ERROR_URI = "https://api.mocki.io/v2/7c49428e/percentage-error";
+    static final String OK_URI = "https://percentage-service.free.beeceptor.com/ok";
+    static final String ERROR_URI = "https://percentage-service.free.beeceptor.com/error";
 
     private final RestService restService;
 

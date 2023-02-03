@@ -13,7 +13,7 @@ public class CalculatorMapper {
     }
 
     public AddResponseDto toResponseDto(Add result) {
-        return new AddResponseDto(result.getValue());
+        return toResponseDto(result.getValue());
     }
 
     public Add toEntity(AddResponseDto result) {

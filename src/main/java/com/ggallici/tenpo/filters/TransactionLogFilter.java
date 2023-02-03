@@ -10,7 +10,6 @@ import com.ggallici.tenpo.models.TransactionLog;
 import com.ggallici.tenpo.models.TransactionStatus;
 import com.ggallici.tenpo.services.TransactionLogService;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,7 +26,6 @@ import java.util.Optional;
 
 import static com.ggallici.tenpo.models.TransactionStatus.ERROR;
 import static com.ggallici.tenpo.models.TransactionStatus.OK;
-import static jakarta.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 @Order(2)
 @WebFilter(urlPatterns = "/calculator/adder")
@@ -38,7 +36,7 @@ public class TransactionLogFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException {
         var wrappedRequest = new ContentCachingRequestWrapper(request);
         var wrappedResponse = new ContentCachingResponseWrapper(response);
 
